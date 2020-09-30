@@ -6,17 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/msc20h13/CLionProjects/DVS_EventProcessing/Event.cpp
-Event.h
 /home/msc20h13/CLionProjects/DVS_EventProcessing/Event.h
-
-/home/msc20h13/CLionProjects/DVS_EventProcessing/Event.h
-
-/home/msc20h13/CLionProjects/DVS_EventProcessing/EventHandler.cpp
-EventHandler.h
-/home/msc20h13/CLionProjects/DVS_EventProcessing/EventHandler.h
-
-/home/msc20h13/CLionProjects/DVS_EventProcessing/EventHandler.h
 
 /home/msc20h13/CLionProjects/DVS_EventProcessing/main.cpp
 iostream
@@ -41,12 +31,6 @@ sqltypes.h
 -
 future
 -
-
-/home/msc20h13/CLionProjects/DVS_EventProcessing/utils.cpp
-iostream
--
-utils.h
-/home/msc20h13/CLionProjects/DVS_EventProcessing/utils.h
 
 /home/msc20h13/CLionProjects/DVS_EventProcessing/utils.h
 Event.h

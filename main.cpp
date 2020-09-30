@@ -17,14 +17,14 @@
 
 using namespace std;
 
-std::vector<Event> read_from_txt_to_EventBuffer() {
+static std::vector<Event> read_from_txt_to_EventBuffer() {
 
 /*  //To write into an output File
     std::ofstream myfile;
     myfile.open ("outputFileWithCommas.txt");
 */
 
-    ifstream fileIn("/home/msc20h13/CLionProjects/untitled/events.txt");
+    ifstream fileIn("/home/msc20h13/CLionProjects/DVS_EventProcessing/events.txt");
 
     vector<Event> EventBuffer;
 
@@ -95,10 +95,10 @@ std::vector<Event> read_from_txt_to_EventBuffer() {
 
 int main() {
     // the management of the eventFlow here should be handled by an eventHandler
-    std::vector<Event> EventBuffer;
-//    EventBuffer = std::async(read_from_txt_to_EventBuffer()); //doesn't work yet, need to check how to implement async tasks in c++
-    std::vector<Event> FilteredEventBuffer = BackGroundActivityFilter(EventBuffer);
-
+    while(true) {
+        std::vector<Event> EventBuffer = read_from_txt_to_EventBuffer(); // for now from txt file, later from camera
+        std::vector<Event> FilteredEventBuffer = BackGroundActivityFilter(EventBuffer);
+    }
     return 0;
 }
 

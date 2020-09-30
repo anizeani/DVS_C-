@@ -36,7 +36,7 @@ std::vector<Event> BackGroundActivityFilter(std::vector<Event> EventBuffer) {
     int filteredOutCount = 0;
 
     vector<vector<int>> lastTimesMap = initializeMap(SIZE_X,SIZE_Y);
-    std::cout << lastTimesMap.size();
+//    std::cout << lastTimesMap.size();
     for(Event e : EventBuffer)
     {
         ts = e._timestamp;
