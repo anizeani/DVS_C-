@@ -1,9 +1,10 @@
 #include <iostream>
 #include "Event.h"
+#include "utils.h"
 #include <vector>
+
 #include <fstream>
 #include <sstream>
-#include "utils.h"
 
 #include <unistd.h>
 #define GetCurrentDir getcwd
@@ -11,11 +12,12 @@
 #include <iterator>
 #include <algorithm>
 #include <sqltypes.h>
+
+//for async tasks:
 #include <future>
+using namespace std;
 
 // This is a C++ implementation of code written by Tobi Delbruck in Java for jAER
-
-using namespace std;
 
 static std::vector<Event> read_from_txt_to_EventBuffer() {
 
@@ -23,7 +25,6 @@ static std::vector<Event> read_from_txt_to_EventBuffer() {
     std::ofstream myfile;
     myfile.open ("outputFileWithCommas.txt");
 */
-
     ifstream fileIn("/home/msc20h13/CLionProjects/DVS_EventProcessing/events.txt");
 
     vector<Event> EventBuffer;
@@ -77,7 +78,7 @@ static std::vector<Event> read_from_txt_to_EventBuffer() {
                 //++i;
             }
             else {
-                cout << "FrameSize == 1000 \n";
+//                cout << "FrameSize == 1000 \n";
                 return EventBuffer;
             }
         }
@@ -95,10 +96,16 @@ static std::vector<Event> read_from_txt_to_EventBuffer() {
 
 int main() {
     // the management of the eventFlow here should be handled by an eventHandler
-    while(true) {
+//    while(true) {
         std::vector<Event> EventBuffer = read_from_txt_to_EventBuffer(); // for now from txt file, later from camera
-        std::vector<Event> FilteredEventBuffer = BackGroundActivityFilter(EventBuffer);
-    }
+        cout << 'hello';
+        vector<vector<bool>> FilteredEvenMap = BackGroundActivityFilter(EventBuffer);
+        for(int i = 0; i<239; ++i)
+        {
+            for (int j =0; j<179; ++j)
+                cout << FilteredEvenMap[i][j] << endl;
+        }
+//    }
     return 0;
 }
 

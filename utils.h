@@ -14,6 +14,6 @@ std::string get_current_dir();
 
 int nthSubstr(int n, const string& s, const string& p);
 
-std::vector<Event> BackGroundActivityFilter(std::vector<Event> EventBuffer);
+vector<vector<bool>> BackGroundActivityFilter(std::vector<Event> EventBuffer);
 std::vector<vector<int>> initializeMap(int sizeX,int sizeY);
 #endif //UNTITLED_UTILS_H

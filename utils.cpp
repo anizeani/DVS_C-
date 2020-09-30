@@ -5,7 +5,6 @@
 #include <iostream>
 #include "utils.h"
 
-
 std::string get_current_dir() {
     char buff[FILENAME_MAX]; //create string buffer to hold path
     GetCurrentDir( buff, FILENAME_MAX );
@@ -26,35 +25,38 @@ int nthSubstr(int n, const string& s, const string& p) {
         return(-1);
 }
 
-std::vector<Event> BackGroundActivityFilter(std::vector<Event> EventBuffer) {
+vector<vector<bool>> BackGroundActivityFilter(std::vector<Event> EventBuffer) {
     //size of chip
-    int SIZE_X = 128;
-    int SIZE_Y = 128;
-    double dt = 1e-6; //time that spike needs to be supported by prior event in neighborhood to pass through
-    float ts = 0;
+    int SIZE_X = 240;
+    int SIZE_Y = 180;
+    int dt = 30000; //time that spike needs to be supported by prior event in neighborhood to pass through in us
+    int ts = 0;
     int eventCount = 0;
     int filteredOutCount = 0;
+    std::vector<vector<bool>> filteredMap(SIZE_X, std::vector<bool>(SIZE_Y));
 
     vector<vector<int>> lastTimesMap = initializeMap(SIZE_X,SIZE_Y);
 //    std::cout << lastTimesMap.size();
     for(Event e : EventBuffer)
     {
-        ts = e._timestamp;
+        ts = e._timestamp *1e6;
         int x = e._x;
         int y = e._y;
 
-        if( x < 0  || x > SIZE_X || y < 0 || y > SIZE_Y)
+        if( x > SIZE_X || x < 0 || y > SIZE_Y || y < 0)
         {
+            cout << y;
             filteredOutCount++;
             continue;
         }
 
-        float lastT = lastTimesMap[x][y];
+        int lastT = lastTimesMap[x][y]; // the pixel has the timestamp of e._timestamp, but if once a value was stored in the lastTimesMap, it is an older value that will be compared with the current timestamp
         int deltaT = (ts - lastT);
 
-        if(!((deltaT < dt) && (lastT != 0)))
+        if(!((deltaT < dt) && (lastT != 0))) // if lastT = 0, it means that this pixel was never hit, if event happened recently == within dt, then pass the event to output, else discard.
         {
-            e.isFilteredOut == true; // does it change the real event or just a copy of it... ?
+            filteredMap[x][y] = true;
+//            e.isFilteredOut == true; // does it change the real event or just a copy of it... ?
             filteredOutCount++;
         }
 
@@ -71,9 +73,8 @@ std::vector<Event> BackGroundActivityFilter(std::vector<Event> EventBuffer) {
             lastTimesMap[x+1][y-1] = ts;
             lastTimesMap[x+1][y+1] = ts;
         }
-        return EventBuffer; // the events are all still inside, just the events which should be filtered out are set to be filtered out, needs to be handeled somewhere
     }
-
+    return filteredMap; // the events are all still inside, just the events which should be filtered out are set to be filtered out, needs to be handeled somewhere
 }
 
 std::vector<vector<int>> initializeMap(int sizeX,int sizeY){
