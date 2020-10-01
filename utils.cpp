@@ -35,7 +35,10 @@ vector<vector<bool>> BackGroundActivityFilter(std::vector<Event> EventBuffer) {
     int filteredOutCount = 0;
     std::vector<vector<bool>> filteredMap(SIZE_X, std::vector<bool>(SIZE_Y));
 
-    vector<vector<int>> lastTimesMap = initializeMap(SIZE_X,SIZE_Y);
+    int DEFAULT_TIMESTAMP = 0x80000000;
+
+
+    vector<vector<int>> lastTimesMap = initializeMap(SIZE_X,SIZE_Y, DEFAULT_TIMESTAMP);
 //    std::cout << lastTimesMap.size();
     for(Event e : EventBuffer)
     {
@@ -62,7 +65,7 @@ vector<vector<bool>> BackGroundActivityFilter(std::vector<Event> EventBuffer) {
 
         eventCount++;
         //foreach event write the event's timestamp into the lastTimesMap at neighboring locations lastTimesMap[x][y]=ts
-        if( (x > 0) && (x < SIZE_X) && ( (y > 0) && (y < SIZE_Y) ) )
+        if( (x > 0) && (x < SIZE_X-1) && ( (y > 0) && (y < SIZE_Y-1) ) )
         {
             lastTimesMap[x-1][y] = ts;
             lastTimesMap[x-1][y-1] = ts;
@@ -77,8 +80,8 @@ vector<vector<bool>> BackGroundActivityFilter(std::vector<Event> EventBuffer) {
     return filteredMap; // the events are all still inside, just the events which should be filtered out are set to be filtered out, needs to be handeled somewhere
 }
 
-std::vector<vector<int>> initializeMap(int sizeX,int sizeY){
-    std::vector<vector<int>> lastTimesMap(sizeX, std::vector<int>(sizeY));
+std::vector<vector<int>> initializeMap(int sizeX,int sizeY, int value){
+    std::vector<vector<int>> lastTimesMap(sizeX, std::vector<int>(sizeY, value));
     return lastTimesMap;
     //check that vector is initialized correctly
     /*    for (int i=0; i < sizeX; i++)
